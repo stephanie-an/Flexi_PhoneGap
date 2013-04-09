@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="FlexiAdmin:war">
+    <output-path>$PROJECT_DIR$/FlexiAdmin/target</output-path>
+    <root id="archive" name="FlexiAdmin-1.0.2.war">
+      <element id="artifact" artifact-name="FlexiAdmin:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,223 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+        >
+<!--      xmlns:f="http://java.sun.com/xml/ns/javaee"-->
+<!--        >-->
+
+<!--<h:head>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>-->
+<ui:composition template="/templates/menu.xhtml">
+    <ui:define name="title">Quote Manager</ui:define>
+
+    <ui:param name="menuIndex" value="1"/>
+
+    <ui:define name="content">
+
+        <h:form id="form3" prependId="false">
+            <f:facet name="header">
+                Date
+            </f:facet>
+            <p:outputPanel id="quoteSearch" layout="block" style="text-align:center;">
+                <p:panel id="panel_date_range" style="margin-bottom:10px;text-align: left">
+                    <h:panelGrid columns="3">
+                        <h:column columnClass="column3">
+                            <h:outputLabel for="productSearch" value="Product: " styleClass="custom"/>
+                            <p:inputText id="productSearch"
+                                         value="#{quoteManager.productSearch}" required="false" label="Product" styleClass="above"/>
+                            <p:message for="productSearch" display="icon"/>
+
+                            <h:outputLabel value="From: " for="min" styleClass="custom"/>
+                            <p:calendar id="min" value="#{quoteManager.fromSubmitDate}">
+                            </p:calendar>
+                            <p:message for="min" display="icon"/>
+
+                            <h:outputLabel value="To: " for="max" styleClass="custom"/>
+                            <p:calendar id="max" value="#{quoteManager.toSubmitDate}">
+                            </p:calendar>
+                            <p:message for="max" display="icon"/>
+
+                            <p:commandButton icon="ui-icon-search" value="Search" update=":form:quotes" id="search" style="text-align: right"
+                                             actionListener="#{quoteManager.filterQuotes()}" styleClass="ui-priority-primary"/>
+                        </h:column>
+                    </h:panelGrid>
+                </p:panel>
+            </p:outputPanel>
+        </h:form>
+
+        <h:form id="form" prependId="false">
+
+            <p:dataTable id="quotes" var="quote" value="#{quoteManager.quoteList}"  widgetVar="quotesTable"
+                         paginator="true" rows="5"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"
+                         style="margin-bottom:10px;"
+                         filteredValue="#{quoteManager.filteredQuotes}">
+                <f:facet name="header">
+                    Quote List
+                </f:facet>
+
+                <p:column style="width:4%">
+                    <p:commandButton id="viewQuote" update=":form:quoteDetail" oncomplete="quoteDialog.show()" icon="ui-icon-scissors" title="View" process="@this">
+                        <f:setPropertyActionListener value="#{quote}" target="#{quoteManager.quote}" />
+                    </p:commandButton>
+                </p:column>
+                <h:messages for="viewQuote"/>
+
+                <p:column sortBy="#{quote.submitdate}"
+                          headerText="Submit Date">
+                    <h:outputText value="#{quote.submitdate}">
+                        <f:convertDateTime timeStyle="medium" dateStyle="medium" type="both" locale="de_CH" pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column sortBy="#{quote.product.name}"
+                          filterBy="#{quote.product.name}"
+                          headerText="Product"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{quote.product.name}" />
+                </p:column>
+
+                <p:column sortBy="#{quote.amount}"
+                          filterBy="#{quote.amount}"
+                          headerText="Amount"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{quote.amount}" />
+                </p:column>
+
+                <p:column sortBy="#{quote.customer.name}"
+                          filterBy="#{quote.customer.name}"
+                          headerText="Customer"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{quote.customer.name}" />
+                </p:column>
+
+                <p:column sortBy="#{quote.salesStaff.firstname}"
+                          filterBy="#{quote.salesStaff.firstname}"
+                          headerText="Sales Staff"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{quote.salesStaff.firstname}" />
+                </p:column>
+            </p:dataTable>
+
+            <p:dialog header="Modify Quote Detail" widgetVar="quoteDialog" modal="true" showEffect="fade" immediate="true">
+                <p:outputPanel id="quoteDetail" layout="block" style="text-align:center;">
+
+                    <p:panel id="panel_modify" style="margin-bottom:10px;text-align:left;">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+                        <div class="row">
+                            <h:outputLabel for="product" value="Product: "/>
+                            <h:outputText id="product"
+                                         value="#{quoteManager.quote.product.name}" required="false" label="Product" styleClass="above"/>
+                            <p:message for="product" display="icon"/>
+                        </div>
+
+                        <div class="row">
+                            <h:outputLabel for="submitdate" value="Submit Date: " />
+                            <h:outputText value="#{quoteManager.quote.submitdate}" id="submitdate"/>
+                            <p:message for="submitdate" display="icon"/>
+                        </div>
+
+                        <div class="row">
+                            <h:outputLabel for="equipment" value="Equiment Type: "/>
+                            <h:outputText id="equipment"
+                                         value="#{quoteManager.quote.equipment.name}" required="false" label="Equipment Type" styleClass="above"/>
+                            <p:message for="equipment" display="icon"/>
+                        </div>
+
+                        <div class="row">
+                            <h:outputLabel for="amount" value="Amount: "/>
+                            <h:outputText id="amount"
+                                         value="#{quoteManager.quote.amount}" required="false" label="Amount" styleClass="above"/>
+                            <p:message for="amount" display="icon"/>
+                        </div>
+
+                        <div class="row">
+                            <h:outputLabel for="term" value="Term: "/>
+                            <h:outputText id="term"
+                                         value="#{quoteManager.quote.term}" required="false" label="Term" styleClass="above"/>
+                            <p:message for="term" display="icon"/>
+                        </div>
+
+                        <div class="row">
+                            <h:outputLabel for="tax" value="Tax Braket: "/>
+                            <h:outputText id="tax"
+                                          value="#{quoteManager.quote.tax.description}" required="false" label="Amount" styleClass="above"/>
+                            <p:message for="tax" display="icon"/>
+                        </div>
+
+                        <!--<div class="row">
+                            <h:selectOneMenu id="selectTax" value="#{quoteManager.taxId}" update="messages">
+                                <f:selectItem itemLabel="#{quoteManager.quote.tax.description}" itemValue="#{quoteManager.quote.tax.id}" />
+                                <f:selectItems value="#{quoteManager.allTaxBrackets}" var="tax" itemLabel="#{tax.description}" itemValue="#{tax.id}"/>
+                            </h:selectOneMenu>
+                        </div>-->
+
+                        <div class="row">
+                            <h:outputLabel for="customer" value="Customer: "/>
+                            <h:outputText id="customer"
+                                         value="#{quoteManager.quote.customer.name}" required="false" label="Customer" styleClass="above"/>
+                            <p:message for="customer" display="icon"/>
+                        </div>
+
+                        <div class="row">
+                            <h:outputLabel for="salesStaff" value="Sales Staff: "/>
+                            <h:outputText id="salesStaff"
+                                         value="#{quoteManager.quote.salesStaff.firstname}" required="false" label="Sales Staff" styleClass="above"/>
+                            <p:message for="salesStaff" display="icon"/>
+                        </div>
+                    </p:panel>
+
+                    <!--<p:panel>
+                        <h:panelGrid columns="3">
+                            <h:outputLabel for="newfirstname" value="First Name: "/>
+                            <p:inputText id="newfirstname"
+                                         value="#{userManager.firstname}" required="false" label="Firstname">
+                                <f:validateLength minimum="2"/>
+                            </p:inputText>
+                            <p:message for="newfirstname" display="icon"/>
+
+                            <h:outputLabel for="newlastname" value="Last Name: "/>
+                            <p:inputText id="newlastname"
+                                         value="#{userManager.lastname}" required="false" label="lastname"/>
+                            <p:message for="newlastname"/>
+
+                            <h:outputLabel for="newusername" value="Username: "/>
+                            <p:inputText id="newusername"
+                                         value="#{userManager.username}" required="false" label="Username"/>
+                            &lt;!&ndash; <f:validateLength minimum="2"/>&ndash;&gt;
+                            <p:message for="newusername"/>
+
+                            <h:outputLabel for="newpassword" value="Password: "/>
+                            <h:inputSecret id="newpassword"
+                                           value="#{userManager.password}" required="false" label="Password"/>
+                            <p:message for="newpassword" display="icon"/>
+
+                            <h:outputLabel for="newconfirmpassword" value="Confirm Password: "/>
+                            <h:inputSecret id="newconfirmpassword"
+                                           value="#{userManager.confirmPassword}" required="false" label="Confirm Password"/>
+                            <p:message for="newconfirmpassword" display="icon"/>
+
+                            <h:outputLabel for="newemail" value="Email: "/>
+                            <p:inputText id="newemail"
+                                         value="#{userManager.email}" required="false" label="Email"/>
+                            <p:message for="newemail"/>
+                        </h:panelGrid>
+                    </p:panel>-->
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+        <h:form>
+            <p:commandButton icon="ui-icon-document" value="Download CSV" id="csv" style="text-align: right"
+                             actionListener="#{quoteManager.writeToCSV}" styleClass="ui-priority-primary"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

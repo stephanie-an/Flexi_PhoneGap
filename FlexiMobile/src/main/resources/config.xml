@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0"
+        id="[GROUP-ID].[ARTIFACT-ID]" version="[VERSION]">
+    <name>PhoneGap Build Sample</name>
+    <description>
+        A sample for phonegap-build-maven-plugin.
+    </description>
+    <author email="stephanie.an@silverquest.com.au">
+        Stephanie An
+    </author>
+</widget>

@@ -1,0 +1,32 @@
+CACHE MANIFEST
+# baa116feb4f3fc49146cef0b8a03cecbaa949830
+index.html
+# 644416c23fa368910aaf5411f021ec172972d47e
+app.js
+# 04d2ad854d6977d802bd45da8d7381d7d879adcd
+app.json
+# 337e1bba9dc7138d1bd935c2a26b49b4c4bd8028
+resources/css/app.css
+# efbc3c3b4a8ec93e74b8f8c368d0e0ad17fa54e1
+resources/css/custom.css
+# 05efc13e765d5cbc808813bccf091a07b1f2fb43
+resources/css/flexi.css
+# 13d1b48569a5a8444932e3d921ee91f92cee2fbf
+resources/images/FlexiBenefits-Button.png
+# ec41995394b4bbbeef41bca2d2c5a8debed9d9bd
+resources/images/KeyContacts-Button.png
+# 74dd3d80388b47698ec85ec2d1d5cb770412836c
+resources/images/loading.png
+# c572150f21835c84e315df3b7b754689ef9bac6f
+resources/images/logo-small.png
+# 485eca3cfa612507e500635d7c65b462da4846a0
+resources/images/NewsOffers-Button.png
+# f5c50969d7e4bc43b131448b1fc946340a58eb54
+resources/images/Quote-Button.png
+
+
+FALLBACK:
+
+
+NETWORK:
+*

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="FlexiGroup">
+        <class>au.com.silverquest.flexigroup.model.entity.Configuration</class>
+        <class>au.com.silverquest.flexigroup.model.entity.Content</class>
+        <class>au.com.silverquest.flexigroup.model.entity.ContentType</class>
+        <class>au.com.silverquest.flexigroup.model.entity.Customer</class>
+        <class>au.com.silverquest.flexigroup.model.entity.Dealer</class>
+        <class>au.com.silverquest.flexigroup.model.entity.Equipment</class>
+        <class>au.com.silverquest.flexigroup.model.entity.Product</class>
+        <class>au.com.silverquest.flexigroup.model.entity.Quote</class>
+        <class>au.com.silverquest.flexigroup.model.entity.Rates</class>
+        <class>au.com.silverquest.flexigroup.model.entity.SalesStaff</class>
+        <class>au.com.silverquest.flexigroup.model.entity.StatusCodes</class>
+        <class>au.com.silverquest.flexigroup.model.entity.Tax</class>
+        <class>au.com.silverquest.flexigroup.model.entity.SalesStaff</class>
+        <class>au.com.silverquest.flexigroup.model.entity.StatusCodes</class>
+        <class>au.com.silverquest.flexigroup.model.entity.SalesStaff</class>
+        <class>au.com.silverquest.flexigroup.model.entity.StatusCodes</class>
+        <class>au.com.silverquest.flexigroup.model.entity.User</class>
+        <class>au.com.silverquest.flexigroup.model.entity.Role</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost/flexigroup"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value="flexigroup"/>
+            <property name="hibernate.connection.password" value="flexigroup"/>
+        </properties>
+    </persistence-unit>
+</persistence>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><component name="dataSourceStorage">
+  <data-source source="LOCAL" name="FlexiGroup" product="MySQL" version="5.6.10-log" jdbc-version="4.0" driver-name="MySQL-AB JDBC Driver" driver-version="mysql-connector-java-5.1.21 ( Revision: ${bzr.revision-id} )" uuid="574b79a3-714c-45d3-87d4-0b36b7a57f86">
+    <extra-name-characters>#@</extra-name-characters>
+    <identifier-quote-string>`</identifier-quote-string>
+    <synchronize>true</synchronize>
+    <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+    <jdbc-url>jdbc:mysql://localhost/flexigroup</jdbc-url>
+    <user-name>flexigroup</user-name>
+    <user-password>dfccdfc6dfcfdfd2dfc3dfcddfd8dfc5dfdfdfda</user-password>
+    <schema-pattern>flexigroup.*</schema-pattern>
+    <default-schemas>flexigroup.*</default-schemas>
+    <libraries>
+      <library>
+        <url>jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.1.21/mysql-connector-java-5.1.21.jar!/</url>
+      </library>
+    </libraries>
+    <schema name="" catalog="flexigroup" />
+    <table name="benefit" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="detail" sqlType="LONGTEXT" length="2147483647" precision="0" nullable="true" jdbcType="-1" />
+      <column name="imageurl" sqlType="LONGTEXT" length="2147483647" precision="0" nullable="false" jdbcType="-1" />
+      <column name="shortdescription" sqlType="VARCHAR" length="255" precision="0" nullable="false" jdbcType="12" />
+      <column name="type" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="false" jdbcType="-2" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="FK842EC947A6FE4D4E" table="product_benefit" schema="" catalog="flexigroup" columns="benefits_id" />
+      <index name="id" unique="true" columns="id" />
+      <index name="UUID" unique="true" columns="UUID" />
+    </table>
+    <table name="configuration" schema="" catalog="flexigroup" type="TABLE">
+      <column name="configkey" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12" />
+      <column name="configvalue" sqlType="VARCHAR" length="4096" precision="0" nullable="false" jdbcType="12" />
+      <primary-key name="PRIMARY" columns="configkey" />
+      <index name="configkey_UNIQUE" unique="true" columns="configkey" />
+    </table>
+    <table name="content" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="activate" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93" />
+      <column name="content" sqlType="LONGTEXT" length="2147483647" precision="0" nullable="true" jdbcType="-1" />
+      <column name="expire" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93" />
+      <column name="imagelink" sqlType="LONGTEXT" length="2147483647" precision="0" nullable="true" jdbcType="-1" />
+      <column name="type" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="false" jdbcType="-2" />
+      <column name="productid" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
+      <column name="lastmodified" sqlType="TIMESTAMP" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <primary-key name="PRIMARY" columns="id" />
+      <index name="id" unique="true" columns="id" />
+      <index name="UUID" unique="true" columns="UUID" />
+    </table>
+    <table name="customer" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="false" jdbcType="-2" />
+      <column name="name" sqlType="VARCHAR" length="255" precision="0" nullable="false" jdbcType="12" />
+      <column name="email" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="phone" sqlType="VARCHAR" length="20" precision="0" nullable="true" jdbcType="12" />
+      <column name="comment" sqlType="LONGTEXT" length="2147483647" precision="0" nullable="true" jdbcType="-1" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="FK4AC4E5C90CD253E" table="quote" schema="" catalog="flexigroup" columns="customerid" />
+      <index name="id_UNIQUE" unique="true" columns="id" />
+      <index name="UUID_UNIQUE" unique="true" columns="UUID" />
+    </table>
+    <table name="dealer" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="false" jdbcType="-2" />
+      <column name="name" sqlType="VARCHAR" length="255" precision="0" nullable="false" jdbcType="12" />
+      <column name="email" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="phone" sqlType="VARCHAR" length="20" precision="0" nullable="true" jdbcType="12" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="FKDC972D54F818CB4" table="salesstaff" schema="" catalog="flexigroup" columns="dealerid" />
+      <index name="id_UNIQUE" unique="true" columns="id" />
+      <index name="UUID_UNIQUE" unique="true" columns="UUID" />
+    </table>
+    <table name="equipment" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="false" jdbcType="-2" />
+      <column name="name" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12" />
+      <column name="lastmodified" sqlType="TIMESTAMP" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="FK4AC4E5CA85511B0" table="quote" schema="" catalog="flexigroup" columns="equipmentid" />
+      <index name="id_UNIQUE" unique="true" columns="id" />
+      <index name="UUID_UNIQUE" unique="true" columns="UUID" />
+      <index name="name_UNIQUE" unique="true" columns="name" />
+    </table>
+    <table name="product" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="false" jdbcType="-2" />
+      <column name="name" sqlType="VARCHAR" length="255" precision="0" nullable="false" jdbcType="12" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="FK842EC9472B09E693" table="product_benefit" schema="" catalog="flexigroup" columns="product_id" />
+      <exported-key name="FK4AC4E5C83DB7672" table="quote" schema="" catalog="flexigroup" columns="productid" />
+      <exported-key name="FK4B15F7383DB7672" table="rates" schema="" catalog="flexigroup" columns="productid" />
+      <index name="product_UNIQUE" unique="true" columns="name" />
+      <index name="id_UNIQUE" unique="true" columns="id" />
+      <index name="UUID_UNIQUE" unique="true" columns="UUID" />
+    </table>
+    <table name="product_benefit" schema="" catalog="flexigroup" type="TABLE">
+      <column name="product_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="benefits_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <primary-key name="PRIMARY" columns="product_id,benefits_id" />
+      <foreign-key name="FK842EC9472B09E693" columns="product_id" ref-table="product" ref-schema="" ref-catalog="flexigroup" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="FK842EC947A6FE4D4E" columns="benefits_id" ref-table="benefit" ref-schema="" ref-catalog="flexigroup" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="quote" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="false" jdbcType="-2" />
+      <column name="term" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="amount" sqlType="DECIMAL" length="10" precision="2" nullable="false" jdbcType="3" />
+      <column name="monthlypayment" sqlType="DECIMAL" length="10" precision="2" nullable="true" jdbcType="3" />
+      <column name="monthlypaymentaftertax" sqlType="DECIMAL" length="10" precision="2" nullable="true" jdbcType="3" />
+      <column name="weeklypayment" sqlType="DECIMAL" length="10" precision="2" nullable="true" jdbcType="3" />
+      <column name="weeklypaymentaftertax" sqlType="DECIMAL" length="10" precision="2" nullable="true" jdbcType="3" />
+      <column name="residual" sqlType="DECIMAL" length="10" precision="2" nullable="true" jdbcType="3" />
+      <column name="submitdate" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93" />
+      <column name="customerid" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="equipmentid" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="productid" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="salesid" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="status" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="taxid" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="FK4AC4E5C2E0551FF" columns="status" ref-table="statuscodes" ref-schema="" ref-catalog="flexigroup" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="FK4AC4E5C83DB7672" columns="productid" ref-table="product" ref-schema="" ref-catalog="flexigroup" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="FK4AC4E5C8F7DCE82" columns="salesid" ref-table="salesstaff" ref-schema="" ref-catalog="flexigroup" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="FK4AC4E5C90CD253E" columns="customerid" ref-table="customer" ref-schema="" ref-catalog="flexigroup" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="FK4AC4E5C9484216A" columns="taxid" ref-table="tax" ref-schema="" ref-catalog="flexigroup" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="FK4AC4E5CA85511B0" columns="equipmentid" ref-table="equipment" ref-schema="" ref-catalog="flexigroup" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <index name="id" unique="true" columns="id" />
+      <index name="UUID" unique="true" columns="UUID" />
+    </table>
+    <table name="rates" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="false" jdbcType="-2" />
+      <column name="productid" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="minamount" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
+      <column name="maxamount" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
+      <column name="term" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
+      <column name="rate" sqlType="DECIMAL" length="6" precision="2" nullable="true" jdbcType="3" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="FK4B15F7383DB7672" columns="productid" ref-table="product" ref-schema="" ref-catalog="flexigroup" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <index name="id" unique="true" columns="id" />
+      <index name="UUID" unique="true" columns="UUID" />
+      <index name="productid" unique="true" columns="minamount,maxamount,term" />
+    </table>
+    <table name="salesstaff" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="false" jdbcType="-2" />
+      <column name="firstname" sqlType="VARCHAR" length="128" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastname" sqlType="VARCHAR" length="128" precision="0" nullable="true" jdbcType="12" />
+      <column name="email" sqlType="VARCHAR" length="255" precision="0" nullable="false" jdbcType="12" />
+      <column name="phone" sqlType="VARCHAR" length="20" precision="0" nullable="true" jdbcType="12" />
+      <column name="dealerid" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="FKDC972D54F818CB4" columns="dealerid" ref-table="dealer" ref-schema="" ref-catalog="flexigroup" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="FK4AC4E5C8F7DCE82" table="quote" schema="" catalog="flexigroup" columns="salesid" />
+      <index name="id_UNIQUE" unique="true" columns="id" />
+      <index name="UUID_UNIQUE" unique="true" columns="UUID" />
+    </table>
+    <table name="statuscodes" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="value" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="true" jdbcType="-2" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="FK4AC4E5C2E0551FF" table="quote" schema="" catalog="flexigroup" columns="status" />
+      <index name="id_UNIQUE" unique="true" columns="id" />
+      <index name="UUID_UNIQUE" unique="true" columns="UUID" />
+    </table>
+    <table name="tax" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="UUID" sqlType="BINARY" length="16" precision="0" nullable="false" jdbcType="-2" />
+      <column name="description" sqlType="VARCHAR" length="50" precision="0" nullable="false" jdbcType="12" />
+      <column name="minamount" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
+      <column name="maxamount" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
+      <column name="rate" sqlType="DECIMAL" length="6" precision="2" nullable="false" jdbcType="3" />
+      <column name="multiplier" sqlType="DECIMAL" length="6" precision="4" nullable="false" jdbcType="3" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="FK4AC4E5C9484216A" table="quote" schema="" catalog="flexigroup" columns="taxid" />
+      <index name="id" unique="true" columns="id" />
+      <index name="description" unique="true" columns="description" />
+      <index name="UUID" unique="true" columns="UUID" />
+    </table>
+    <table name="user" schema="" catalog="flexigroup" type="TABLE">
+      <column name="id" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" autoIncrement="true" />
+      <column name="password" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="role" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
+      <column name="username" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="email" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="firstname" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="surname" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12" />
+      <primary-key name="PRIMARY" columns="id" />
+    </table>
+  </data-source>
+</component>

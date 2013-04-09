@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- log to tomcat console -->
+    <appender name="flexigroup" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy/MM/dd HH:mm:ss,SSS} [%5p] %t %C:%L - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Don't worry about Spring or most Hibernate messages -->
+    <logger name="org.springframework">
+        <level value="error"/>
+    </logger>
+
+    <logger name="org.hibernate">
+        <level value="error"/>
+    </logger>
+
+    <!-- log all SQL statements -->
+    <logger name="org.hibernate.SQL">
+        <level value="error"/>
+    </logger>
+
+    <!-- log spring-data messages for debugging -->
+    <!--
+    <logger name="org.springframework.data.rest">
+        <level value="debug"/>
+    </logger>
+    -->
+
+    <logger name="au.com.silverquest">
+        <level value="error"/>
+    </logger>
+
+    <root>
+        <priority value="info"/>
+        <appender-ref ref="flexigroup"/>
+    </root>
+
+</log4j:configuration>

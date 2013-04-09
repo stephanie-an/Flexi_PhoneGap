@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+
+<!--<h:head>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>-->
+<ui:composition template="/templates/menu.xhtml">
+    <ui:define name="title">Content Manager</ui:define>
+
+    <ui:param name="menuIndex" value="2"/>
+
+    <ui:define name="content">
+
+
+        <h:form id="form" prependId="false">
+
+            <p:dataTable id="contents" var="content" value="#{contentManager.contentList}"  widgetVar="contentsTable"
+                         paginator="true" rows="5"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"
+                         style="margin-bottom:10px;"
+                         styleClass="above"
+                         filteredValue="#{contentManager.filteredContents}"
+                         >
+                <f:facet name="header">
+                    Content List
+                </f:facet>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <h:outputText value="" />
+                    <p:commandButton id ="icon" icon="ui-icon-scissors" update=":form:contentDetail" oncomplete="contentDialog.show()"
+                                     title="Modify/Delete">
+                        <f:setPropertyActionListener value="#{content}" target="#{contentManager.content}" />
+                    </p:commandButton>
+                </p:column>
+
+                <p:column sortBy="#{content.type.type}"
+                          filterBy="#{content.type.type}"
+                          headerText="Type"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{content.type}" />
+                </p:column>
+
+                <p:column sortBy="#{content.description}"
+                          filterBy="#{content.description}"
+                          headerText="Description"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{content.description}" />
+                </p:column>
+
+                <p:column sortBy="#{content.activate}"
+                          headerText="Active">
+                    <!--
+                          filterBy="#{content.activate}"
+                          filterMatchMode="contains"
+                          parser="date">
+                          -->
+                    <h:outputText value="#{content.activate}">
+                            <f:convertDateTime type="date" dateStyle="medium" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column sortBy="#{content.expire}"
+                          headerText="Expire">
+                    <!--
+                          filterBy="#{content.expire}"
+                          filterMatchMode="contains"
+                          parser="date">
+                          -->
+                    <h:outputText value="#{content.expire}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+
+            <p:dialog header="Modify Content Detail" widgetVar="contentDialog" modal="true" showEffect="fade" immediate="true">
+                <p:outputPanel id="contentDetail" layout="block" style="text-align:center;">
+
+                    <p:panel id="panel_modify" style="margin-bottom:10px;text-align:left;">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+                        <h:selectOneMenu id="selectType" value="#{contentManager.selectedType}" update="messages">
+                            <f:selectItem itemLabel="#{contentManager.content.contentType.type}" itemValue="#{contentManager.content.contentType.id}" />
+                            <f:selectItems value="#{contentManager.contentTypeList}" var="contentType" itemLabel="#{contentType.type}" itemValue="#{contentType.id}"/>
+                        </h:selectOneMenu>
+
+                        <div class="row">
+                            <h:outputLabel for="description" value="Description: *" styleClass="custom"/>
+                            <p:inputText id="description"
+                                         value="#{contentManager.content.description}" required="false" label="Description" styleClass="above"/>
+                            <p:message for="description" display="icon"/>
+                        </div>
+
+                        <div class="row">
+                            <h:outputLabel value="Activate" for="activate" styleClass="custom"/>
+                            <p:calendar value="#{contentManager.content.activate}" id="activate"/>
+                            <p:message for="activate" display="icon"/>
+                        </div>
+
+                        <div class="row">
+                        <h:outputLabel value="Expire" for="expire" styleClass="custom"/>
+                        <p:calendar value="#{contentManager.content.expire}" id="expire" label="Expire"/>
+                        <p:message for="expire" display="icon"/>
+                        </div>
+
+                        <div class="row">
+                            <p:editor id="editor" value="#{contentManager.content.content}" width="600"/>
+
+                           <!-- <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade" modal="true">
+                                <h:outputText id="display" value="#{contentManager.text}" escape="false" />
+                            </p:dialog>-->
+                            <!--<p:outputLabel value="Content" for="content" styleClass="custom"/>
+                            &lt;!&ndash; <h:inputTextarea cols="30" rows="10" />&ndash;&gt;
+                            <p:inputTextarea value="#{contentManager.text}" id="content" cols="70" rows="10" style="height: 150px; overflow:auto;"/>-->
+                        </div>
+
+                        <!--<div class="row">
+                            <p:outputLabel value="Content" for="content" styleClass="custom"/>
+                            &lt;!&ndash; <h:inputTextarea cols="30" rows="10" />&ndash;&gt;
+                            <p:inputTextarea value="#{contentManager.content.content}" id="content" cols="70" rows="10" style="height: 150px; overflow:auto;"/>
+                        </div>-->
+
+                    </p:panel>
+
+                    <p:commandButton value="Update" update="panel_modify, form" id="submit_update"
+                                     actionListener="#{contentManager.updateContent()}"
+                                     styleClass="ui-priority-primary"/>
+                    <p:commandButton value="Delete" update="panel_modify, form" id="delete"
+                                     actionListener="#{contentManager.deleteContent()}"
+                                     styleClass="ui-priority-primary"/>
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+
+        <h:form id="form2">
+
+            <p:commandButton id ="icon" icon="ui-icon-plusthick" value="Add New Content" oncomplete="addContentDialog.show()"
+                             title="Add Content" text-align="right">
+                <!--<f:setPropertyActionListener value="#{content}" target="#{contentManager.content}" />-->
+            </p:commandButton>
+
+            <p:dialog header="Add New Content" widgetVar="addContentDialog" modal="true" showEffect="fade" immediate="true">
+                <p:outputPanel id="addContent" layout="block">
+
+
+                    <p:panel id="panel_add" style="margin-bottom:10px;text-align:left;">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+                        <h:selectOneMenu id="selectType" value="#{contentManager.selectedType}" update="messages">
+                            <f:selectItem itemLabel="Select Type" itemValue="" />
+                            <f:selectItems value="#{contentManager.contentTypeList}" var="contentType" itemLabel="#{contentType.type}" itemValue="#{contentType.id}"/>
+                        </h:selectOneMenu>
+
+                        <div class="row">
+                            <p:outputLabel value="Description" for="description" styleClass="custom"/>
+                            <p:inputText value="#{contentManager.description}" id="description"/>
+                        </div>
+
+
+                        <div class="row">
+                            <p:outputLabel value="Activate" for="activate" styleClass="custom"/>
+                            <p:calendar value="#{contentManager.activate}" id="activate"/>
+                        </div>
+
+                        <div class="row">
+                            <p:outputLabel value="Expire" for="expire" styleClass="custom"/>
+                            <p:calendar value="#{contentManager.expire}" id="expire"/>
+                        </div>
+
+                        <div class="row">
+                            <p:editor id="editor" value="#{contentManager.text}" width="600"/>
+
+                           <!-- <p:dialog header="Content" widgetVar="dlg" showEffect="fade" hideEffect="fade" modal="true">
+                                <h:outputText id="display" value="#{contentManager.text}" escape="false" />
+                            </p:dialog>-->
+                            <!--<p:outputLabel value="Content" for="content" styleClass="custom"/>
+                            &lt;!&ndash; <h:inputTextarea cols="30" rows="10" />&ndash;&gt;
+                            <p:inputTextarea value="#{contentManager.text}" id="content" cols="70" rows="10" style="height: 150px; overflow:auto;"/>-->
+                        </div>
+
+                    </p:panel>
+
+                    <p:commandButton value="Submit" update=":form:contents, panel_add" id="submit_add" oncomplete="addContentDialog.hide()"
+                                     actionListener="#{contentManager.createContent}" styleClass="ui-priority-primary"/>
+
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

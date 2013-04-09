@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+<f:view contentType="text/html">
+    <h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+            <title>Flexi Group Content Maintenance &#187; <ui:insert name="title"/></title>
+        </f:facet>
+        <h:outputStylesheet library="css" name="style.css"/>
+        <ui:insert name="head"/>
+    </h:head>
+    <h:body>
+        <pe:ajaxErrorHandler/>
+        <ui:insert name="body"/>
+    </h:body>
+</f:view>
+</html>

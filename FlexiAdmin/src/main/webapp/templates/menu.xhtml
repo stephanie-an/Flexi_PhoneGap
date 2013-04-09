@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<!--@elvariable id="menuIndex" type="java.lang.Integer"-->
+<!--@elvariable id="adminMenuIndex" type="java.lang.Integer"-->
+<!--@elvariable id="reportMenuIndex" type="java.lang.Integer"-->
+<!--@elvariable id="auditMenuIndex" type="java.lang.Integer"-->
+<ui:composition template="/templates/template.xhtml">
+
+    <ui:define name="head">
+        <h:outputScript library="js" name="menu.js"/>
+    </ui:define>
+
+    <ui:define name="body">
+        <!--<div id="header" class="ui-widget ui-widget-header" style="margin-bottom:5px;">
+            <div id="logo" style="height:50px;vertical-align:middle;" >
+                <img src="#{resource['images/iphone/logo-small.png']}" style="height:50px;vertical-align:middle;" />
+            </div>
+        </div>-->
+
+        <div id="logo" style="height:50px;vertical-align:middle;" >
+            <img src="#{resource['images/iphone/logo-small.png']}" style="height:50px;vertical-align:middle;" />
+        </div>
+
+        <h:form>
+        <div id="logout" style="text-align: right;">
+            <!--<p:outputLabel value="Logout"/>-->
+            <p:commandButton id="logout" action="#{loginManager.logout}" value="Logout" ajax="false"/>
+        </div>
+        </h:form>
+
+        <div id="wrapper">
+            <h:form style="background-color: #E4FFD2">
+                <p:tabMenu activeIndex="#{menuIndex}" styleClass="no-bottom-border">
+
+                    <p:menuitem value="Dealer/Sales Staff" url="/salesstaff.jsf"/>
+                    <p:menuitem value="Quotes" url="/quotes.jsf"/>
+                    <p:menuitem value="Content" url="/content.jsf"/>
+                    <!--<p:menuitem value="Admin" url="/admin.jsf"/>-->
+                    <p:menuitem value="Admin" url="/admin.jsf" disabled="#{loginManager.restrictUser()}"/>
+
+                   <!-- <p:menuitem value="Logout"/>-->
+
+                </p:tabMenu>
+            </h:form>
+
+            <ui:insert name="content"/>
+
+            <!--<ui:include src="../footer.xhtml" />-->
+        </div>
+    </ui:define>
+
+</ui:composition>
+</html>

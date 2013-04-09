@@ -1,0 +1,303 @@
+
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+        >
+<!--      xmlns:f="http://java.sun.com/xml/ns/javaee"-->
+<!--        >-->
+
+<!--<h:head>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>-->
+<ui:composition template="/templates/menu.xhtml">
+<ui:define name="title">Sales Staff Manager</ui:define>
+
+<ui:param name="menuIndex" value="0"/>
+
+<ui:define name="content">
+
+
+<h:form id="form_dealer" prependId="false">
+
+    <p:dataTable id="dealers" var="dealer" value="#{dealerManager.dealerList}"  widgetVar="dealerTable"
+                 paginator="true" rows="5"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15"
+                 style="margin-bottom:10px;"
+                 styleClass="above"
+                 filteredValue="#{dealerManager.filteredDealerList}">
+        <f:facet name="header">
+            Dealer List
+        </f:facet>
+
+        <p:column style="width:4%">
+            <p:commandButton id="viewDealer" update=":form_dealer:dealerDetail" oncomplete="dealerDialog.show()" icon="ui-icon-scissors" title="View">
+                <f:setPropertyActionListener value="#{dealer}" target="#{dealerManager.dealer}" />
+            </p:commandButton>
+        </p:column>
+
+        <p:column sortBy="#{dealer.name}"
+                  filterBy="#{dealer.name}"
+                  headerText="Name"
+                  filterMatchMode="contains">
+            <h:outputText value="#{dealer.name}" />
+        </p:column>
+
+        <p:column sortBy="#{dealer.email}"
+                  filterBy="#{dealer.email}"
+                  headerText="Email"
+                  filterMatchMode="contains">
+            <h:outputText value="#{dealer.email}" />
+        </p:column>
+
+        <p:column sortBy="#{dealer.phone}"
+                  filterBy="#{dealer.phone}"
+                  headerText="Phone"
+                  filterMatchMode="contains">
+            <h:outputText value="#{dealer.phone}" />
+        </p:column>
+    </p:dataTable>
+
+    <p:dialog header="Modify Dealer Detail" widgetVar="dealerDialog" modal="true" showEffect="fade" immediate="true">
+        <p:outputPanel id="dealerDetail" layout="block" style="text-align:center;">
+
+            <p:panel id="panel_modifydealer" style="margin-bottom:10px;text-align:left;">
+                <p:messages id="messages_dealer" showDetail="true" autoUpdate="true" closable="true"/>
+
+                <div class="row">
+                    <h:outputLabel for="name" value="Name: " styleClass="custom"/>
+                    <p:inputText id="name"
+                                 value="#{dealerManager.dealer.name}" required="false" label="Name" styleClass="above"/>
+                    <p:message for="name" display="icon"/>
+                </div>
+
+                <div class="row">
+                    <h:outputLabel for="dealeremail" value="Email: " styleClass="custom"/>
+                    <p:inputText id="dealeremail"
+                                 value="#{dealerManager.dealer.email}" required="false" label="Email" styleClass="above"/>
+                    <p:message for="dealeremail" display="icon"/>
+                </div>
+
+                <div class="row">
+                    <h:outputLabel for="dealerphone" value="Phone: " styleClass="custom"/>
+                    <p:inputText id="dealerphone"
+                                 value="#{dealerManager.dealer.phone}" required="false" label="Phone" styleClass="above"/>
+                    <p:message for="dealerphone" display="icon"/>
+                </div>
+            </p:panel>
+
+            <p:commandButton value="Update" update="panel_modifydealer, form_dealer, :form2:panel_add" id="submit_update_dealer"
+                             actionListener="#{dealerManager.updateDealer()}"
+                             styleClass="ui-priority-primary"/>
+            <p:commandButton value="Delete" update="panel_modifydealer, form_dealer, :form2:panel_add" id="delete_dealer"
+                             actionListener="#{dealerManager.deleteDealer()}"
+                             styleClass="ui-priority-primary"/>
+        </p:outputPanel>
+    </p:dialog>
+
+</h:form>
+
+<h:form id="form_add_dealer">
+
+    <p:commandButton id ="icon" icon="ui-icon-plusthick" value="Add New Dealer" oncomplete="addDealerDialog.show()"
+                     title="Add Dealer" text-align="right" style="margin-bottom:30px;">
+        <!--<f:setPropertyActionListener value="#{salesStaff}" target="#{salesStaffManager.salesStaff}" />-->
+    </p:commandButton>
+
+    <p:dialog header="Add New Dealer" widgetVar="addDealerDialog" modal="true" showEffect="fade" immediate="true">
+        <p:outputPanel id="addDealer" layout="block">
+
+
+            <p:panel id="panel_add_dealer" style="margin-bottom:10px;text-align:left;">
+                <p:messages id="messages_adddealer" showDetail="true" autoUpdate="true" closable="true"/>
+
+                <!--<h:selectOneMenu id="selectDealer" value="#{salesStaffManager.dealerList}" update="messages">
+                    <f:selectItem itemLabel="Select Dealer" itemValue="" />
+                    <f:selectItems value="#{salesStaffManager.dealerList}" var="dealer" itemLabel="#{dealer.name}" itemValue="#{dealer.name}"/>
+                </h:selectOneMenu>-->
+
+                <div class="row">
+                    <p:outputLabel value="Name" for="name" styleClass="custom"/>
+                    <p:inputText value="#{dealerManager.name}" id="name"/>
+                </div>
+
+                <div class="row">
+                    <p:outputLabel value="Email" for="email" styleClass="custom"/>
+                    <p:inputText value="#{dealerManager.email}" id="email"/>
+                </div>
+
+                <div class="row">
+                    <p:outputLabel value="Phone" for="phone" styleClass="custom"/>
+                    <p:inputText value="#{dealerManager.phone}" id="phone"/>
+                </div>
+            </p:panel>
+
+            <p:commandButton value="Submit" update=":form_dealer:dealers, panel_add_dealer, :form2:panel_add" id="submit_add" oncomplete="addDealerDialog.hide()"
+                             actionListener="#{dealerManager.save}" styleClass="ui-priority-primary"/>
+
+        </p:outputPanel>
+    </p:dialog>
+
+</h:form>
+
+<h:form id="form" prependId="false">
+
+    <p:dataTable id="salesStaffs" var="salesStaff" value="#{salesStaffManager.salesStaffList}"  widgetVar="salesStaffTable"
+                 paginator="true" rows="5"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15"
+                 style="margin-bottom:10px;"
+                 styleClass="custom"
+                 filteredValue="#{salesStaffManager.filteredSalesStaffList}">
+        <f:facet name="header">
+            Sales Staff List
+        </f:facet>
+
+        <p:column style="width:4%">
+            <p:commandButton id="viewStaff" update=":form:salesStaffDetail" oncomplete="salesStaffDialog.show()" icon="ui-icon-scissors" title="View" process="@this">
+                <f:setPropertyActionListener value="#{salesStaff}" target="#{salesStaffManager.salesStaff}" />
+            </p:commandButton>
+        </p:column>
+
+        <p:column sortBy="#{salesStaff.dealer.name}"
+                  filterBy="#{salesStaff.dealer.name}"
+                  headerText="Dealer"
+                  filterMatchMode="contains">
+            <h:outputText value="#{salesStaff.dealer.name}" />
+        </p:column>
+
+        <p:column sortBy="#{salesStaff.firstname}"
+                  filterBy="#{salesStaff.firstname}"
+                  headerText="First Name"
+                  filterMatchMode="contains">
+            <h:outputText value="#{salesStaff.firstname}" />
+        </p:column>
+
+        <p:column sortBy="#{salesStaff.lastname}"
+                  filterBy="#{salesStaff.lastname}"
+                  headerText="Last Name"
+                  filterMatchMode="contains">
+            <h:outputText value="#{salesStaff.lastname}" />
+        </p:column>
+
+        <p:column sortBy="#{salesStaff.email}"
+                  filterBy="#{salesStaff.email}"
+                  headerText="Email"
+                  filterMatchMode="contains">
+            <h:outputText value="#{salesStaff.email}" />
+        </p:column>
+
+        <p:column sortBy="#{salesStaff.phone}"
+                  filterBy="#{salesStaff.phone}"
+                  headerText="Phone"
+                  filterMatchMode="contains">
+            <h:outputText value="#{salesStaff.phone}" />
+        </p:column>
+    </p:dataTable>
+
+    <p:dialog header="Modify Sales Staff Detail" widgetVar="salesStaffDialog" modal="true" showEffect="fade" immediate="true">
+        <p:outputPanel id="salesStaffDetail" layout="block" style="text-align:center;">
+
+            <p:panel id="panel_modify" style="margin-bottom:10px;text-align:left;">
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+                <h:selectOneMenu id="selectDealer" value="#{salesStaffManager.selectedDealer}" update="messages">
+                    <f:selectItem itemLabel="#{salesStaffManager.salesStaff.dealer.name}" itemValue="#{salesStaffManager.salesStaff.dealer.id}" />
+                    <f:selectItems value="#{salesStaffManager.dealerList}" var="dealer" itemLabel="#{dealer.name}" itemValue="#{dealer.id}"/>
+                </h:selectOneMenu>
+
+                <div class="row">
+                    <h:outputLabel for="firstname" value="First Name: " styleClass="custom"/>
+                    <p:inputText id="firstname"
+                                 value="#{salesStaffManager.salesStaff.firstname}" required="false" label="First name" styleClass="above"/>
+                    <p:message for="firstname" display="icon"/>
+                </div>
+
+                <div class="row">
+                    <h:outputLabel for="lastname" value="Last Name: " styleClass="custom"/>
+                    <p:inputText id="lastname"
+                                 value="#{salesStaffManager.salesStaff.lastname}" required="false" label="Last name" styleClass="above"/>
+                    <p:message for="lastname" display="icon"/>
+                </div>
+
+                <div class="row">
+                    <h:outputLabel for="email" value="Email: " styleClass="custom"/>
+                    <p:inputText id="email"
+                                 value="#{salesStaffManager.salesStaff.email}" required="false" label="Email" styleClass="above"/>
+                    <p:message for="email" display="icon"/>
+                </div>
+
+                <div class="row">
+                    <h:outputLabel for="phone" value="Phone: " styleClass="custom"/>
+                    <p:inputText id="phone"
+                                 value="#{salesStaffManager.salesStaff.phone}" required="false" label="Phone" styleClass="above"/>
+                    <p:message for="phone" display="icon"/>
+                </div>
+            </p:panel>
+
+            <p:commandButton value="Update" update="panel_modify, form" id="submit_update"
+                             actionListener="#{salesStaffManager.updateSalesStaff}"
+                             styleClass="ui-priority-primary"/>
+            <p:commandButton value="Delete" update="panel_modify, form" id="delete"
+                             actionListener="#{salesStaffManager.deleteSalesStaff}"
+                             styleClass="ui-priority-primary"/>
+        </p:outputPanel>
+    </p:dialog>
+
+</h:form>
+
+<h:form id="form2">
+
+    <p:commandButton id ="icon" icon="ui-icon-plusthick" value="Add New Sales Staff" oncomplete="addSalesStaffDialog.show()"
+                     title="Add Sales Staff" text-align="right">
+        <!--<f:setPropertyActionListener value="#{salesStaff}" target="#{salesStaffManager.salesStaff}" />-->
+    </p:commandButton>
+
+    <p:dialog header="Add New Sales Staff" widgetVar="addSalesStaffDialog" modal="true" showEffect="fade" immediate="true">
+        <p:outputPanel id="addSalesStaff" layout="block">
+
+
+            <p:panel id="panel_add" style="margin-bottom:10px;text-align:left;">
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+                <h:selectOneMenu id="selectDealer" value="#{salesStaffManager.selectedDealer}" update="messages">
+                    <f:selectItem itemLabel="Select Dealer" itemValue="" />
+                    <f:selectItems value="#{salesStaffManager.dealerList}" var="dealer" itemLabel="#{dealer.name}" itemValue="#{dealer.id}"/>
+                </h:selectOneMenu>
+
+                <div class="row">
+                    <p:outputLabel value="First Name" for="firstname" styleClass="custom"/>
+                    <p:inputText value="#{salesStaffManager.firstname}" id="firstname"/>
+                </div>
+
+                <div class="row">
+                    <p:outputLabel value="Last Name" for="lastname" styleClass="custom"/>
+                    <p:inputText value="#{salesStaffManager.lastname}" id="lastname"/>
+                </div>
+
+                <div class="row">
+                    <p:outputLabel value="Email" for="email" styleClass="custom"/>
+                    <p:inputText value="#{salesStaffManager.email}" id="email"/>
+                </div>
+
+                <div class="row">
+                    <p:outputLabel value="Phone" for="phone" styleClass="custom"/>
+                    <p:inputText value="#{salesStaffManager.phone}" id="phone"/>
+                </div>
+            </p:panel>
+
+            <p:commandButton value="Submit" update=":form:salesStaffs, panel_add" id="submit_add" oncomplete="addSalesStaffDialog.hide()"
+                             actionListener="#{salesStaffManager.createSalesStaff}" styleClass="ui-priority-primary"/>
+
+        </p:outputPanel>
+    </p:dialog>
+
+</h:form>
+</ui:define>
+</ui:composition>
+</html>

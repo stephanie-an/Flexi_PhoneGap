@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+        >
+<!--      xmlns:f="http://java.sun.com/xml/ns/javaee"-->
+<!--        >-->
+
+<!--<h:head>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>-->
+<ui:composition template="/templates/menu.xhtml">
+<ui:define name="title">User Manager</ui:define>
+
+<ui:param name="menuIndex" value="3"/>
+
+<ui:define name="content">
+
+<h:form id="form" prependId="false">
+
+    <p:dataTable id="users" var="user" value="#{userManager.users}"
+                 paginator="true" rows="5"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15"
+                 style="margin-bottom:10px;"
+                 filteredValue="#{userManager.filteredUsers}"
+            >
+
+        <f:facet name="header">
+            User List
+        </f:facet>
+
+        <p:column style="width:4%">
+            <p:commandButton id="viewUser" update=":form:userDetail" oncomplete="userDialog.show()" icon="ui-icon-scissors" title="View">
+                <f:setPropertyActionListener value="#{user}" target="#{userManager.user}" />
+            </p:commandButton>
+        </p:column>
+
+        <p:column sortBy="#{user.firstname}"
+                  filterBy="#{user.firstname}"
+                  headerText="First Name"
+                  filterMatchMode="contains">
+            <h:outputText value="#{user.firstname}" />
+        </p:column>
+
+        <p:column sortBy="#{user.lastname}"
+                  filterBy="#{user.lastname}"
+                  headerText="Last Name"
+                  filterMatchMode="contains">
+            <h:outputText value="#{user.lastname}" />
+        </p:column>
+
+        <p:column sortBy="#{user.username}"
+                  filterBy="#{user.username}"
+                  headerText="Username"
+                  filterMatchMode="contains">
+            <h:outputText value="#{user.username}" />
+        </p:column>
+
+        <p:column sortBy="#{user.email}"
+                  filterBy="#{user.email}"
+                  headerText="Email"
+                  filterMatchMode="contains">
+            <h:outputText value="#{user.email}" />
+        </p:column>
+
+    </p:dataTable>
+
+    <p:dialog header="Modify User Detail" widgetVar="userDialog" modal="true" showEffect="fade" immediate="true">
+        <p:outputPanel id="userDetail" layout="block" style="text-align:center;">
+
+            <p:panel id="panel_modify" style="margin-bottom:10px;text-align:left;">
+                <p:messages id="messages_modify" autoUpdate="true"/>
+
+                <p:panel id="role1" style="text-align:center">
+                    <p:dataTable id="addRoleTable" var="role" value="#{userManager.user.roles}"
+                                 style="margin-bottom:10px;">
+                        <p:column>
+                            <h:outputText value="#{role.groupName}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:column>
+                        <p:commandButton icon="ui-icon-circle-plus" update="addRole1" oncomplete="addRoleDialog1.show()" id="role_add1"
+                                         styleClass="ui-priority-primary"/>
+                        <p:commandButton icon="ui-icon-circle-minus" update="deleteRole1" oncomplete="deleteRoleDialog1.show()" id="role_delete1"
+                                         styleClass="ui-priority-primary"/>
+                    </p:column>
+                </p:panel>
+
+                <!--<p:separator />-->
+
+                <p:panel>
+                    <h:panelGrid styleClass="modifyUserAlign" columns="3">
+                        <h:outputLabel for="firstname" value="First Name: *"/>
+                        <p:inputText id="firstname"
+                                     value="#{userManager.user.firstname}" required="false" label="Firstname"/>
+                        <p:message for="firstname" display="icon"/>
+
+                        <h:outputLabel for="lastname" value="Last Name: *"/>
+                        <p:inputText id="lastname"
+                                     value="#{userManager.user.lastname}" required="false" label="Last Name"/>
+                        <p:message for="lastname"/>
+
+                        <h:outputLabel for="username" value="Username: *" style="width: 80px"/>
+                        <p:inputText id="username"
+                                     value="#{userManager.user.username}" required="false" label="Username"/>
+                        <p:message for="username"/>
+
+                        <h:outputLabel for="password" value="Password: *"/>
+                        <h:inputSecret id="password"
+                                       value="#{userManager.user.password}" required="false" label="Password"/>
+                        <p:message for="password" display="icon"/>
+
+                        <h:outputLabel for="confirmpassword" value="Confirm Password: *"/>
+                        <h:inputSecret id="confirmpassword"
+                                       value="#{userManager.confirmPassword}" required="false" label="Confirm Password"/>
+                        <p:message for="confirmpassword" display="icon"/>
+
+                        <h:outputLabel for="email" value="Email: *"/>
+                        <p:inputText id="email"
+                                     value="#{userManager.user.email}" required="false" label="Email"/>
+                        <p:message for="email"/>
+                    </h:panelGrid>
+                </p:panel>
+
+            </p:panel>
+
+            <p:commandButton value="Update User" update="panel_modify, form" id="submit_update"
+                             actionListener="#{userManager.updateUser()}"
+                             styleClass="ui-priority-primary"/>
+            <p:commandButton value="Delete User" update="panel_modify,form" id="delete"
+                             actionListener="#{userManager.deleteUser()}"
+                             styleClass="ui-priority-primary"/>
+        </p:outputPanel>
+    </p:dialog>
+
+    <p:dialog header="Add New Role" widgetVar="addRoleDialog1" modal="true" showEffect="fade" immediate="true">
+        <p:outputPanel id="addRole1" layout="block" style="text-align:center;">
+
+            <p:panel id="panel_add_role1" style="margin-bottom:10px;text-align:left;">
+                <!--<p:panel id="panel_add" header="Add New User" style="margin-bottom:10px;width:450px;">-->
+                <p:messages id="messages_add"/>
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:selectManyCheckbox value="#{userManager.selectedRoles}" layout="pageDirection">
+                        <f:selectItems value="#{userManager.availableRoles}" var="role" itemLabel="#{role.groupName}" itemValue="#{role.groupName}"/>
+                    </p:selectManyCheckbox>
+
+                </h:panelGrid>
+            </p:panel>
+
+            <p:commandButton value="Add Role" update="panel_modify, addRole1" oncomplete="addRoleDialog1.hide()" id="role_add_submit1"
+                             actionListener="#{userManager.addRoles}" styleClass="ui-priority-primary"/>
+        </p:outputPanel>
+    </p:dialog>
+
+    <p:dialog header="Delete Role" widgetVar="deleteRoleDialog1" modal="true" showEffect="fade" immediate="true">
+        <p:outputPanel id="deleteRole1" layout="block" style="text-align:center;">
+
+            <p:panel id="panel_delete_role1" style="margin-bottom:10px;text-align:left;">
+                <!--<p:panel id="panel_add" header="Add New User" style="margin-bottom:10px;width:450px;">-->
+                <p:messages id="messages_delete"/>
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:selectManyCheckbox value="#{userManager.rolesToDelete}"
+                                          layout="pageDirection">
+                        <f:selectItems value="#{userManager.user.roles}" var="role" itemLabel="#{role.groupName}" itemValue="#{role.groupName}"/>
+                    </p:selectManyCheckbox>
+
+                </h:panelGrid>
+            </p:panel>
+
+            <p:commandButton value="Delete Role" update="panel_modify, deleteRole1" oncomplete="deleteRoleDialog1.hide()" id="role_delete_submit1"
+                             actionListener="#{userManager.deleteRoles}" styleClass="ui-priority-primary"/>
+        </p:outputPanel>
+    </p:dialog>
+
+</h:form>
+
+<h:form id="form2">
+
+    <p:commandButton id ="icon" icon="ui-icon-plusthick" value="Add New User" oncomplete="addUserDialog.show()"
+                     title="Add User" align="center" actionListener="#{userManager.refreshUser}">
+    </p:commandButton>
+
+    <p:dialog header="Add New User" widgetVar="addUserDialog" modal="true" showEffect="fade" immediate="true">
+        <p:outputPanel id="addUser" layout="block" style="text-align:center;">
+
+            <p:panel id="panel_add" style="margin-bottom:10px;text-align:left;">
+                <!--<p:panel id="panel_add" header="Add New User" style="margin-bottom:10px;width:450px;">-->
+                <p:messages id="messages_add"/>
+
+                <p:panel id="role1" style="text-align:center">
+                    <p:dataTable id="addRoleTable" var="role" value="#{userManager.user.roles}"
+                                 style="margin-bottom:10px;">
+                        <p:column>
+                            <h:outputText value="#{role.groupName}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:column>
+                        <p:commandButton icon="ui-icon-circle-plus" update="addRole2" oncomplete="addRoleDialog2.show()" id="role_add2"
+                                         styleClass="ui-priority-primary"/>
+                        <p:commandButton icon="ui-icon-circle-minus" update="deleteRole2" oncomplete="deleteRoleDialog2.show()" id="role_delete2"
+                                         styleClass="ui-priority-primary"/>
+                    </p:column>
+                </p:panel>
+
+                <p:panel>
+                    <h:panelGrid columns="3">
+                        <h:outputLabel for="newfirstname" value="First Name: "/>
+                        <p:inputText id="newfirstname"
+                                     value="#{userManager.firstname}" required="false" label="Firstname">
+                            <f:validateLength minimum="2"/>
+                        </p:inputText>
+                        <p:message for="newfirstname" display="icon"/>
+
+                        <h:outputLabel for="newlastname" value="Last Name: "/>
+                        <p:inputText id="newlastname"
+                                     value="#{userManager.lastname}" required="false" label="lastname"/>
+                        <p:message for="newlastname"/>
+
+                        <h:outputLabel for="newusername" value="Username: "/>
+                        <p:inputText id="newusername"
+                                     value="#{userManager.username}" required="false" label="Username"/>
+                        <!-- <f:validateLength minimum="2"/>-->
+                        <p:message for="newusername"/>
+
+                        <h:outputLabel for="newpassword" value="Password: "/>
+                        <h:inputSecret id="newpassword"
+                                       value="#{userManager.password}" required="false" label="Password"/>
+                        <p:message for="newpassword" display="icon"/>
+
+                        <h:outputLabel for="newconfirmpassword" value="Confirm Password: "/>
+                        <h:inputSecret id="newconfirmpassword"
+                                       value="#{userManager.confirmPassword}" required="false" label="Confirm Password"/>
+                        <p:message for="newconfirmpassword" display="icon"/>
+
+                        <h:outputLabel for="newemail" value="Email: "/>
+                        <p:inputText id="newemail"
+                                     value="#{userManager.email}" required="false" label="Email"/>
+                        <p:message for="newemail"/>
+                    </h:panelGrid>
+                </p:panel>
+            </p:panel>
+
+
+
+            <p:commandButton value="Submit" update=":form:users, panel_add" id="submit_add" oncomplete="addUserDialog.hide()"
+                             actionListener="#{userManager.createUser}" styleClass="ui-priority-primary"/>
+
+        </p:outputPanel>
+    </p:dialog>
+
+    <p:dialog header="Add New Role" widgetVar="addRoleDialog2" modal="true" showEffect="fade" immediate="true">
+        <p:outputPanel id="addRole2" layout="block" style="text-align:center;">
+
+            <p:panel id="panel_add_role2" style="margin-bottom:10px;text-align:left;">
+                <!--<p:panel id="panel_add" header="Add New User" style="margin-bottom:10px;width:450px;">-->
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:selectManyCheckbox value="#{userManager.selectedRoles}"
+                                          layout="pageDirection">
+                        <f:selectItems value="#{userManager.availableRoles}" var="role" itemLabel="#{role.groupName}" itemValue="#{role.groupName}"/>
+                    </p:selectManyCheckbox>
+
+                </h:panelGrid>
+            </p:panel>
+
+            <p:commandButton value="Add Role" update="panel_add, addRole2" oncomplete="addRoleDialog2.hide()" id="role_add_submit2"
+                             actionListener="#{userManager.addRoles}" styleClass="ui-priority-primary"/>
+        </p:outputPanel>
+    </p:dialog>
+
+    <p:dialog header="Delete Role" widgetVar="deleteRoleDialog2" modal="true" showEffect="fade" immediate="true">
+        <p:outputPanel id="deleteRole2" layout="block" style="text-align:center;">
+
+            <p:panel id="panel_delete_role2" style="margin-bottom:10px;text-align:left;">
+                <!--<p:panel id="panel_add" header="Add New User" style="margin-bottom:10px;width:450px;">-->
+                <p:messages id="messages_delete"/>
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:selectManyCheckbox value="#{userManager.rolesToDelete}"
+                                          layout="pageDirection">
+                        <f:selectItems value="#{userManager.user.roles}" var="role" itemLabel="#{role.groupName}" itemValue="#{role.groupName}"/>
+                    </p:selectManyCheckbox>
+
+                </h:panelGrid>
+            </p:panel>
+
+            <p:commandButton value="Delete Role" update="panel_add, deleteRole2" oncomplete="deleteRoleDialog2.hide()" id="role_delete_submit2"
+                             actionListener="#{userManager.deleteRoles}" styleClass="ui-priority-primary"/>
+        </p:outputPanel>
+    </p:dialog>
+</h:form>
+</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/template.xhtml">
+    <ui:define name="title">Login</ui:define>
+
+    <ui:define name="head">
+        <!--<div id="header" class="ui-widget ui-widget-header" style="margin-bottom:10px;">
+            <div id="logo" style="height:50px;vertical-align:middle;" >
+                <img src="#{resource['images/iphone/logo-small.png']}" style="height:50px;vertical-align:middle;" />
+            </div>
+        </div>-->
+    </ui:define>
+
+    <ui:define name="body">
+        <div id="login-wrapper" class="chv">
+            <h:form id="loginForm" prependId="false">
+
+                <p:growl id="growl" showDetail="true" sticky="false" />
+                <!--onsubmit="document.getElementById('login-form').action='#{request.contextPath}/contents.xhtml';"-->
+
+               <!-- <p:panel header="FLEXIGROUP Login">-->
+               <!-- <ui:define name="body">-->
+                    <p:panel>
+
+
+                    <h:panelGroup rendered="#{param.fail}">
+                        <div class="row">
+                            <div class="cell">
+                                <h:outputText styleClass="fail"
+                                              value="#{request.session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').getMessage()}"/>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+
+                    <div id="logo2" style="height:50px; text-align: center">
+
+                        <img src="#{resource['images/iphone/logo-small.png']}" style="height:50px;" />
+                    </div>
+                        <!--<h:messages globalOnly="true"/>-->
+                        <!--<p:message id="error" for="j_username" autoUpdate="true" showDetail="true"/>-->
+
+                    <div class="row">
+                        <div class="cell">
+                            <p:outputLabel value="Username" for="j_username" styleClass="custom"/>
+                            <p:inputText id="j_username" required="true" value="#{loginManager.username}"/>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="cell">
+                            <p:outputLabel value="Password" for="j_password" styleClass="custom"/>
+                            <h:inputSecret id="j_password" required="true" value="#{loginManager.password}"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="text-align: center">
+                        <div class="cell">
+                            <p:commandButton id="submit" action="#{loginManager.login}" value="Log In" update="@form" ajax="false"/>
+
+                        </div>
+                    </div>
+                </p:panel>
+               <!-- </ui:define>-->
+
+                <h:outputText rendered="#{param['fail']}" />
+
+                <!--<ui:include src="footer.xhtml"/>-->
+            </h:form></div>
+    </ui:define>
+</ui:composition>
+</html>
